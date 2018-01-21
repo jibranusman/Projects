@@ -1,0 +1,483 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="PRAMaster.master.cs" Inherits="PRAHRM2.PRAMaster" %>
+
+<!DOCTYPE html>
+
+<style>
+
+    h2 {
+        top:0%;
+        left:41%;
+        font-family:Calibri;
+        position:fixed;
+        z-index:10;
+    }
+
+    b {
+        text-align:center;
+    }
+    
+    .mydatagrid
+    {
+        width: 600px;
+        border:none 0px transparent;
+        min-width:600px;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.428571429;
+        text-align: center;
+        white-space: nowrap;
+        border-radius: 4px;
+    }
+
+    .header
+    {
+        background-color: white;
+        font-family:Calibri;
+        color:cornflowerblue;
+        width:600px;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.428571429;
+        text-align: center;
+        white-space: nowrap;
+        border:none 0px transparent;
+        border-radius: 4px;
+        column-width:100px;
+    }
+
+    .rows
+    {
+        background-color:lightgrey;
+        font-family:Calibri;
+        font-size: 14px;
+        width:600px;
+        column-width:100px;
+        color: black;
+        min-height: 45px;
+        text-align: left;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-weight: normal;
+        line-height: 1.428571429;
+        white-space: nowrap;
+        border:none 0px transparent;
+        border-radius: 4px;
+    }
+
+    .rows:hover
+    {
+        background-color: cornflowerblue;
+        font-family: Calibri;
+        color: white;
+        text-align: left;
+    }
+
+    .selectedrow
+    {
+        background-color: cornflowerblue;
+        font-family: Calibri;
+        color: white;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    .container-div 
+    {
+        position:absolute;
+        padding-top:8%;
+        padding-left:1%;
+        padding-right:1%;
+        background-color:whitesmoke;
+        width:79%;
+        border-left:2px inset green;
+        border-right:2px inset green;
+        margin-left:9%;
+        margin-right:9%;
+        z-index:0;
+        font-family:Calibri;
+        min-height:82%;
+    }
+
+    .calendarWrapper
+    {
+        background-color: cornflowerblue;
+        padding: 10px;
+        display: inline-block;
+    }
+
+    .myCalendar
+    {
+        background-color: #f2f2f2;
+        width: 230px;
+        border: none !important;
+    }
+
+    .myCalendar a
+    {
+        text-decoration: none;
+    }
+
+    .myCalendar .myCalendarTitle
+    {
+        font-weight: bold;
+        height: 40px;
+        line-height: 40px;
+        background-color: cornflowerblue;
+        color: #ffffff;
+        border: none !important;
+    }
+
+    .myCalendar th.myCalendarDayHeader
+    {
+        height: 25px;
+    }
+
+    .myCalendar tr
+    {
+        border-bottom: solid 1px #ddd;
+    }
+
+    .myCalendar table tr
+    {
+        border-bottom: none !important;
+    }
+
+    .myCalendar tr:last-child td
+    {
+        border-bottom: none;
+    }
+
+    .myCalendar tr td.myCalendarDay, .myCalendar tr th.myCalendarDayHeader
+    {
+        border-right: solid 1px #ddd;
+    }
+
+    .myCalendar tr td:last-child.myCalendarDay, .myCalendar tr th:last-child.myCalendarDayHeader
+    {
+        border-right: none;
+    }
+
+    .myCalendar td.myCalendarDay:nth-child(7) a
+    {
+        color: #c52e2e !important;
+    }
+
+    .myCalendar .myCalendarNextPrev
+    {
+        text-align: center;
+    }
+
+        .myCalendar .myCalendarNextPrev a
+        {
+            font-size: 1px;
+        }
+
+        .myCalendar .myCalendarNextPrev:nth-child(1) a
+        {
+            color: white;
+        }
+
+            .myCalendar .myCalendarNextPrev:nth-child(1) a:hover, .myCalendar .myCalendarNextPrev:nth-child(3) a:hover
+            {
+                background-color: transparent;
+            }
+
+        .myCalendar .myCalendarNextPrev:nth-child(3) a
+        {
+            color: white;
+        }
+
+    .myCalendar td.myCalendarSelector a
+    {
+        background-color: #25bae5;
+    }
+
+    .myCalendar .myCalendarDayHeader a,
+    .myCalendar .myCalendarDay a,
+    .myCalendar .myCalendarSelector a,
+    .myCalendar .myCalendarNextPrev a
+    {
+        display: block;
+        line-height: 20px;
+    }
+
+    .myCalendar .myCalendarToday
+    {
+        background-color: #f2f2f2;
+        -webkit-box-shadow: 1px 1px 8px 1px #8f8f8f;
+        box-shadow: 1px 1px 8px 1px #8f8f8f;
+        display: inline-block;
+        width: 30px !important;
+        height: 19px !important;
+        border: 2px solid #f2f2f2;
+    }
+
+        .myCalendar .myCalendarToday a
+        {
+            color: #25bae5 !important;
+            font-weight: bold;
+        }
+
+            .myCalendar .myCalendarToday a:after
+            {
+                content: "TODAY";
+                color: #000;
+                font-size: 0.5em;
+                display: inline-block;
+                pointer-events: none;
+                width: 100%;
+                float: left;
+            }
+
+    .myCalendar .myCalendarDay a:hover,
+    .myCalendar .myCalendarSelector a:hover
+    {
+        background-color: #25bae5;
+    }
+
+    #pralogo {
+        width:200px;
+        height:100px;
+        left:6%;
+        top:1%;
+        position:fixed;
+        z-index:10;
+    }
+
+    .homelogo {
+        width:900px;
+        height:250px;
+        display:inline-block;
+        position:absolute;
+        z-index:10;
+    }
+
+    #homebutton {
+        font-family:Calibri;
+        top:13%;
+        left:21%;
+        position:fixed;
+        background-color:white;
+        color:black;
+        text-decoration:none;
+        z-index:10;
+    }
+
+    #homebutton:hover {
+        color:blue;
+    }
+
+    #Personnelinfobutton {
+        top:13%;
+        left:31%;
+        position:fixed;
+        background-color:white;
+        color:black;
+        text-decoration:none;
+        font-family:Calibri;
+        z-index:10;
+    }
+
+    #Personnelinfobutton:hover {
+        color:blue;
+    }
+
+    #Workinghours {
+        top:13%;
+        left:48%;
+        position:fixed;
+        background-color:white;
+        color:black;
+        text-decoration:none;
+        font-family:Calibri;
+        z-index:10;
+    }
+
+    #Workinghours:hover {
+        color:blue;
+    }
+
+    #Internship {
+        top:13%;
+        left:63%;
+        position:fixed;
+        background-color:white;
+        color:black;
+        text-decoration:none;
+        font-family:Calibri;
+        z-index:10;
+    }
+
+    #Internship:hover {
+        color:blue;
+    }
+
+    #Aboutus {
+        top:13%;
+        left:76%;
+        position:fixed;
+        background-color:white;
+        color:black;
+        text-decoration:none;
+        font-family:Calibri;
+        z-index:10;
+    }
+
+    #Aboutus:hover {
+        color:blue;
+    }
+
+    #blackline {
+        width:1350px;
+        height:1px;
+        top:17%;
+        position:fixed;
+        z-index:10;
+    }
+
+    #whiteBackground {
+        position:fixed;
+        width:1350px;
+        top:0px;
+        height:112px;
+        z-index:5;
+    }
+
+    #goplogo {
+        width:100px;
+        height:90px;
+        right:10%;
+        top:2%;
+        position:fixed;
+        z-index:10;
+    }
+
+    #signoutButton {
+        font-family:Calibri;
+        right:3%;
+        position:fixed;
+        background-color:white;
+        color:black;
+        text-decoration:none;
+        z-index:10;
+    }
+
+    #signoutButton:hover {
+        color:blue;
+    }
+
+    #linktag {
+        color:black;
+        text-decoration:none;
+        font-family:Calibri;
+    }
+
+    #linktag:hover {
+        color:blue;
+    }
+
+    .buttons {
+        position:absolute;
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.428571429;
+        text-align: center;
+        background-color: lightgrey;
+        white-space: nowrap;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        cursor:pointer;
+        z-index:20;
+    }
+
+    .fileupload {
+        position:absolute;
+        display: inline-block;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.428571429;
+        text-align: center;
+        background-color: lightgrey;
+        white-space: nowrap;
+        border: 1px solid blue;
+        border-radius: 2px;
+        cursor:pointer;
+        z-index:20;
+    }
+
+    .fileupload:hover {
+        background-color:cornflowerblue;
+    }
+
+    .buttons:hover {
+        background-color:cadetblue;
+    }
+
+    .textboxes {
+        position:absolute;
+        display:block;
+        height: 17px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    }
+
+    .dropDownLists {
+        position:absolute;
+        display:block;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 15px;
+        line-height: 1.428571429;
+        color: #555;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    }
+</style>
+
+<head runat="server">
+   
+   <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <title> </title>
+
+    <h2>Punjab Revenue Authority <br /> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp HRM</h2>
+
+    <asp:Image id="pralogo" cssClass="pralogo" runat="server" ImageUrl="images/pra.jpg"/>
+    <asp:Image id="goplogo" cssClass="goplogo" runat="server" ImageUrl="images/gop.jpg"/>
+    <asp:Image id="blackline" cssClass="blackline" runat="server" ImageUrl="images/bl.jpg"/>
+    <asp:Image id="whiteBackground" CssClass="whiteBackground" ImageUrl="images/white.jpg" runat="server"/>
+
+</head>
+
+<body>
+    <form id="form1" runat="server">
+
+        <a id="signoutButton" runat="server" href="login.aspx"> Sign out </a>
+        <a id="homebutton" runat="server" href="Home.aspx"> Home </a>
+        <a id="Personnelinfobutton" runat="server" href="personalInfo.aspx"> Personal Information</a>
+        <a id="Workinghours" runat="server" href="workingHours.aspx"> Working Hours </a>
+        <a id="Internship" runat="server" href="internship.aspx"> Internship </a>
+        <a id="Aboutus" runat="server" href="contactUs.aspx"> Contact us </a>
+
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+
+        </asp:ContentPlaceHolder>
+
+    </form>
+</body>
+</html>
